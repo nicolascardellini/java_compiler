@@ -808,6 +808,8 @@ class Lexer implements java_cup.runtime.Scanner {
             // fall through
           case 34: break;
           case 16:
+            { System.out.print(" bool "); return symbol(sym.TYPEBOOL);
+            }
             // fall through
           case 35: break;
           case 17:

@@ -9,6 +9,12 @@
 import java_cup.runtime.*;
    
 parser code {:
+	
+	SymbolTable st = new SymbolTable();
+	
+	
+    
+    
     
     public void report_error(String message, Object info) {
    
@@ -64,10 +70,11 @@ parser code {:
    
 
 terminal           SEMI, PLUS, MINUS, TIMES, DIVIDE, LPAREN, RPAREN;
-terminal           NUMBER, ID, AND, OR, TRUE, FALSE, TYPEINT, TYPEBOOL, RETURN, ASSIG;
-   
-non terminal     expr;
-non terminal     program, ld, ls, d, s, type;
+terminal           AND, OR, TRUE, FALSE, TYPEINT, TYPEBOOL, RETURN, ASSIG;
+terminal  		   Integer NUMBER;
+terminal		   String ID;
+non terminal       VarSym expr;
+non terminal       program, ld, ls, d, s, type;
    
 
 /* -------------Precedence and Associatively of Terminals Section----------- */
@@ -122,9 +129,10 @@ non terminal     program, ld, ls, d, s, type;
                  | ID     
 */
    
-   program ::= ld ls
+   program ::= ld ls 
+   			   {: System.out.println(" FIN! "); :}
                | ls
-               {: /*System.out.println(" FIN ");*/ :}
+               {: System.out.println(" FIN! "); :}
                ;   
    ld ::= d ld
           | d
@@ -140,15 +148,15 @@ non terminal     program, ld, ls, d, s, type;
    type ::= TYPEBOOL 
          | TYPEINT
          ; 
-   expr      ::=   expr AND  expr
+   expr   		::=   expr AND  expr
                  | expr OR   expr
                  | expr PLUS expr
                  | expr MINUS expr
                  | expr TIMES expr
                  | expr DIVIDE expr
                  | LPAREN expr RPAREN
-                 | NUMBER
-                 | ID
+                 | NUMBER:N {: VarSym aux = new VarSym("aux",0,N);System.out.println(aux.getName()); :}
+                 | ID:I {: RESULT = nesw VarSym(I,0,0);System.out.println(RESULT.getName()); :}
                  | TRUE
                  | FALSE
                  ;

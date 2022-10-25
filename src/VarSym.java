@@ -6,9 +6,12 @@ public class VarSym {
 	private int value;
 	private int offset = 0;
 	
-	public VarSym(int type2, int yyline, int yycolumn, Object value2) {
-		// TODO Auto-generated constructor stub
+	public VarSym(String name, int type, int value) {
+		this.name = name;
+		this.type = type;
+		this.value = value;
 	}
+	
 	public String getName() {
 		return name;
 	}

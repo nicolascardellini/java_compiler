@@ -7,24 +7,24 @@
 public class sym {
   /* terminals */
   public static final int TIMES = 5;
-  public static final int AND = 11;
+  public static final int AND = 9;
   public static final int PLUS = 3;
-  public static final int OR = 12;
+  public static final int OR = 10;
   public static final int RPAREN = 8;
   public static final int SEMI = 2;
-  public static final int TYPEINT = 15;
-  public static final int RETURN = 17;
-  public static final int TRUE = 13;
+  public static final int TYPEINT = 13;
+  public static final int RETURN = 15;
+  public static final int TRUE = 11;
   public static final int LPAREN = 7;
-  public static final int ID = 10;
+  public static final int ID = 18;
+  public static final int NUMBER = 17;
   public static final int EOF = 0;
-  public static final int NUMBER = 9;
   public static final int DIVIDE = 6;
-  public static final int FALSE = 14;
+  public static final int FALSE = 12;
   public static final int MINUS = 4;
-  public static final int ASSIG = 18;
   public static final int error = 1;
-  public static final int TYPEBOOL = 16;
+  public static final int ASSIG = 16;
+  public static final int TYPEBOOL = 14;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -35,8 +35,6 @@ public class sym {
   "DIVIDE",
   "LPAREN",
   "RPAREN",
-  "NUMBER",
-  "ID",
   "AND",
   "OR",
   "TRUE",
@@ -44,7 +42,9 @@ public class sym {
   "TYPEINT",
   "TYPEBOOL",
   "RETURN",
-  "ASSIG"
+  "ASSIG",
+  "NUMBER",
+  "ID"
   };
 }
 
