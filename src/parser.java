@@ -347,7 +347,27 @@ class CUP$parser$actions {
           case 12: // expr ::= expr AND expr 
             {
               VarSym RESULT =null;
-
+		int e1left = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).left;
+		int e1right = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).right;
+		VarSym e1 = (VarSym)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
+		int e2left = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
+		int e2right = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
+		VarSym e2 = (VarSym)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
+		if(e1.getType() == 1 && e2.getType() == 1) 
+                 							{
+	                 							if(e1.getValue() == 1 && e2.getValue() == 1){
+	                 								RESULT = new VarSym("aux", 1, 1);
+	                 							}
+	                 							else
+	                 							{
+	                 								RESULT = new VarSym ("aux", 1, 0);
+	                 							}
+                 							}
+                 							else{
+	                 							System.out.println("Error: operacion boleana no valida con numeros");
+	                                          	System.exit(1);
+                 							}
+                 						
               CUP$parser$result = parser.getSymbolFactory().newSymbol("expr",0, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -356,7 +376,27 @@ class CUP$parser$actions {
           case 13: // expr ::= expr OR expr 
             {
               VarSym RESULT =null;
-
+		int e1left = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).left;
+		int e1right = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).right;
+		VarSym e1 = (VarSym)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
+		int e2left = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
+		int e2right = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
+		VarSym e2 = (VarSym)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
+		if(e1.getType() == 1 && e2.getType() == 1) 
+                 							{
+	                 							if(e1.getValue() == 1 || e2.getValue() == 1){
+	                 								RESULT = new VarSym("aux", 1, 1);
+	                 							}
+	                 							else {
+	                 								System.out.println("Error: operacion aritmetica no valida con booleanos");
+                                             		System.exit(1);
+	                 							}
+                 							}
+                 							else{
+	                 							System.out.println("Error: operacion boleana no valida con numeros");
+	                                          	System.exit(1);
+                 							}
+                 						
               CUP$parser$result = parser.getSymbolFactory().newSymbol("expr",0, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -365,7 +405,21 @@ class CUP$parser$actions {
           case 14: // expr ::= expr PLUS expr 
             {
               VarSym RESULT =null;
-
+		int e1left = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).left;
+		int e1right = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).right;
+		VarSym e1 = (VarSym)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
+		int e2left = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
+		int e2right = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
+		VarSym e2 = (VarSym)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
+		
+                 							if(e1.getType() == 0 && e2.getType() == 0){
+                 								RESULT = new VarSym("aux", 0, e1.getValue() + e2.getValue());
+                 							}
+                 							else {
+	                 								System.out.println("Error: operacion aritmetica no valida con booleanos");
+                                             		System.exit(1);
+	                 						}
+                 						
               CUP$parser$result = parser.getSymbolFactory().newSymbol("expr",0, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -374,7 +428,21 @@ class CUP$parser$actions {
           case 15: // expr ::= expr MINUS expr 
             {
               VarSym RESULT =null;
-
+		int e1left = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).left;
+		int e1right = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).right;
+		VarSym e1 = (VarSym)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
+		int e2left = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
+		int e2right = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
+		VarSym e2 = (VarSym)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
+		
+                 							if(e1.getType() == 0 && e2.getType() == 0){
+                 								RESULT  =  new VarSym("aux", 0, e1.getValue() - e2.getValue());
+                 							}
+                 							else {
+	                 								System.out.println("Error: operacion aritmetica no valida con booleanos");
+                                             		System.exit(1);
+	                 						}
+                 						 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("expr",0, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -383,7 +451,21 @@ class CUP$parser$actions {
           case 16: // expr ::= expr TIMES expr 
             {
               VarSym RESULT =null;
-
+		int e1left = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).left;
+		int e1right = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).right;
+		VarSym e1 = (VarSym)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
+		int e2left = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
+		int e2right = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
+		VarSym e2 = (VarSym)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
+		
+                 							if(e1.getType() == 0 && e2.getType() == 0){
+                 							 RESULT = new VarSym("aux", 0, e1.getValue() * e2.getValue());
+                 							}
+                 							else {
+	                 								System.out.println("Error: operacion aritmetica no valida con booleanos");
+                                             		System.exit(1);
+	                 						}
+                 						 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("expr",0, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -392,7 +474,21 @@ class CUP$parser$actions {
           case 17: // expr ::= expr DIVIDE expr 
             {
               VarSym RESULT =null;
-
+		int e1left = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).left;
+		int e1right = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).right;
+		VarSym e1 = (VarSym)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
+		int e2left = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
+		int e2right = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
+		VarSym e2 = (VarSym)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
+		
+                 							if(e1.getType() == 0 && e2.getType() == 0){
+                 								RESULT = new VarSym("aux", 0, e1.getValue() / e2.getValue());
+                 							}
+                 							else {
+	                 								System.out.println("Error: operacion aritmetica no valida con booleanos");
+                                             		System.exit(1);
+	                 						}
+                 						  
               CUP$parser$result = parser.getSymbolFactory().newSymbol("expr",0, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -401,7 +497,10 @@ class CUP$parser$actions {
           case 18: // expr ::= LPAREN expr RPAREN 
             {
               VarSym RESULT =null;
-
+		int eleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
+		VarSym e = (VarSym)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
+		RESULT = new VarSym("aux", e.getType(), e.getValue());  
               CUP$parser$result = parser.getSymbolFactory().newSymbol("expr",0, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -413,7 +512,7 @@ class CUP$parser$actions {
 		int Nleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int Nright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Integer N = (Integer)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 VarSym aux = new VarSym("aux",0,N);System.out.println(aux.getName()); 
+		 RESULT = new VarSym("aux",0,N);System.out.println(RESULT.getName()); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("expr",0, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -425,7 +524,7 @@ class CUP$parser$actions {
 		int Ileft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int Iright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		String I = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT = nesw VarSym(I,0,0);System.out.println(RESULT.getName()); 
+		 RESULT = new VarSym(I,0,0);System.out.println(RESULT.getName()); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("expr",0, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -434,7 +533,7 @@ class CUP$parser$actions {
           case 21: // expr ::= TRUE 
             {
               VarSym RESULT =null;
-
+		 RESULT = new VarSym("BOOL", new Integer(0), new Integer(1)); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("expr",0, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -443,7 +542,7 @@ class CUP$parser$actions {
           case 22: // expr ::= FALSE 
             {
               VarSym RESULT =null;
-
+		 RESULT = new VarSym("BOOL", new Integer(0), new Integer(0)); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("expr",0, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
