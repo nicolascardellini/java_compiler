@@ -9,4 +9,16 @@ public class SymbolTable {
 		this.symbols.add(symbol);
 	}
 	
+	public VarSym getSymbol(String name) {
+		for(VarSym sym : symbols) {
+			if(sym.getName().equals(name)) {
+				return sym;
+			}
+		}
+		return null;
+	}
+	
+	public boolean exist(String name) {
+		return this.getSymbol(name)!=null;
+	}
 }

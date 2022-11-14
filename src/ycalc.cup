@@ -73,8 +73,9 @@ terminal           SEMI, PLUS, MINUS, TIMES, DIVIDE, LPAREN, RPAREN;
 terminal           AND, OR, TRUE, FALSE, TYPEINT, TYPEBOOL, RETURN, ASSIG;
 terminal  		   Integer NUMBER;
 terminal		   String ID;
+non terminal	   Integer type;
 non terminal       VarSym expr;
-non terminal       program, ld, ls, d, s, type;
+non terminal       program, ld, ls, d, s;
    
 
 /* -------------Precedence and Associatively of Terminals Section----------- */
@@ -108,15 +109,40 @@ non terminal       program, ld, ls, d, s, type;
    ls ::= s ls
           | s
           ;     
-   d ::= type ID ASSIG expr SEMI
+   d ::= type:t ID:I ASSIG expr:e SEMI
+   		  {:
+   		  
+   		  	if(st.exist(I)){
+   		  		System.out.println("Error: variable redefined: " + I);
+                System.exit(1);
+   		  	}
+   		  	System.out.println("Error: variable redefined: " + I);
+   		  	st.addSymbol(new VarSym(I, t, e.getValue()));
+   		  	
+   		  
+   		 :}
          ;
-   s ::= ID ASSIG expr SEMI 
-         | RETURN expr SEMI
-         ;
-   type ::= TYPEBOOL 
-         | TYPEINT
+   s ::= ID:I ASSIG expr:e SEMI 
+   		 {:
+   		  
+   		  	if(!st.exist(I)){
+   		  		System.out.println("Error: variable redefined: " + I);
+                System.exit(1);
+   		  	}
+   		  	
+   		  	st.getSymbol(I).setValue(e.getValue());
+   		  	
+   		  
+   		 :}
+         | RETURN expr:e SEMI
+         {:
+         	System.out.println(e.getValue());
+         :};
+         
+   type ::= TYPEBOOL {: RESULT = new Integer(0); :}
+         | TYPEINT {: RESULT = new Integer(1); :}
          ; 
-   expr   		::=   expr:e1 AND  expr:e2 {:if(e1.getType() == 1 && e2.getType() == 1) 
+   expr  ::=   expr:e1 AND  expr:e2 {:if(e1.getType() == 1 && e2.getType() == 1) 
                  							{
 	                 							if(e1.getValue() == 1 && e2.getValue() == 1){
 	                 								RESULT = new VarSym("aux", 1, 1);
@@ -183,8 +209,19 @@ non terminal       program, ld, ls, d, s, type;
 	                 						}
                  						  :}
                  | LPAREN expr:e RPAREN {:RESULT = new VarSym("aux", e.getType(), e.getValue());  :}
-                 | NUMBER:N {: RESULT = new VarSym("aux",0,N);System.out.println(RESULT.getName()); :}
-                 | ID:I {: RESULT = new VarSym(I,0,0);System.out.println(RESULT.getName()); :}
-                 | TRUE {: RESULT = new VarSym("BOOL", new Integer(0), new Integer(1)); :}
-                 | FALSE {: RESULT = new VarSym("BOOL", new Integer(0), new Integer(0)); :}
+                 | NUMBER:N {: RESULT = new VarSym("num", new Integer(1), new Integer((int) N));System.out.println(RESULT.getName()); :}
+                 | ID:I {:
+                 			if(!st.exist(I)){
+                 				System.out.println("Error: undefined variable " + I);
+                                System.exit(1);
+                 			}
+                 			RESULT = st.getSymbol(I);
+                 				
+                 		:}
+                 | TRUE {:
+                 			RESULT = new VarSym("BOOL", new Integer(0), new Integer(1)); 
+                 		:}
+                 | FALSE {:
+                 			RESULT = new VarSym("BOOL", new Integer(0), new Integer(0));
+                 		:}
                  ;
