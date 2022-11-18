@@ -741,89 +741,87 @@ class Lexer implements java_cup.runtime.Scanner {
             // fall through
           case 21: break;
           case 3:
-            { System.out.print(" ( "); return symbol(sym.LPAREN);
+            { return symbol(sym.LPAREN);
             }
             // fall through
           case 22: break;
           case 4:
-            { System.out.print(" ) "); return symbol(sym.RPAREN);
+            { return symbol(sym.RPAREN);
             }
             // fall through
           case 23: break;
           case 5:
-            { System.out.print(" * "); return symbol(sym.TIMES);
+            { return symbol(sym.TIMES);
             }
             // fall through
           case 24: break;
           case 6:
-            { System.out.print(" + "); return symbol(sym.PLUS);
+            { return symbol(sym.PLUS);
             }
             // fall through
           case 25: break;
           case 7:
-            { System.out.print(" - "); return symbol(sym.MINUS);
+            { return symbol(sym.MINUS);
             }
             // fall through
           case 26: break;
           case 8:
-            { System.out.print(" / "); return symbol(sym.DIVIDE);
+            { return symbol(sym.DIVIDE);
             }
             // fall through
           case 27: break;
           case 9:
-            { System.out.print(yytext());
-                         return symbol(sym.NUMBER, new Integer(yytext()));
+            { return symbol(sym.NUMBER, new Integer(yytext()));
             }
             // fall through
           case 28: break;
           case 10:
-            { System.out.println(" ; "); return symbol(sym.SEMI);
+            { return symbol(sym.SEMI);
             }
             // fall through
           case 29: break;
           case 11:
-            { System.out.print(" = "); return symbol(sym.ASSIG);
+            { return symbol(sym.ASSIG);
             }
             // fall through
           case 30: break;
           case 12:
-            { System.out.print(yytext());
-                         return symbol(sym.ID, new Integer(1));
+            { return symbol(sym.ID, new String(yytext()));
             }
             // fall through
           case 31: break;
           case 13:
-            { System.out.print(" && "); return symbol(sym.AND);
+            { return symbol(sym.AND);
             }
             // fall through
           case 32: break;
           case 14:
-            { System.out.print(" || "); return symbol(sym.OR);
+            { return symbol(sym.OR);
             }
             // fall through
           case 33: break;
           case 15:
-            { System.out.print(" int "); return symbol(sym.TYPEINT);
+            { return symbol(sym.TYPEINT);
             }
             // fall through
           case 34: break;
           case 16:
-            { System.out.print(" bool "); return symbol(sym.TYPEBOOL);
+            { return symbol(sym.TYPEBOOL);
             }
             // fall through
           case 35: break;
           case 17:
-            { System.out.print(" true "); return symbol(sym.TRUE);
+            { return symbol(sym.TRUE);
             }
             // fall through
           case 36: break;
           case 18:
-            { System.out.print(" false "); return symbol(sym.FALSE);
+            { return symbol(sym.FALSE);
             }
             // fall through
           case 37: break;
           case 19:
-            { System.out.print("return "); return symbol(sym.RETURN);
+            { return symbol(sym.RETURN);
             }
             // fall through
           case 38: break;

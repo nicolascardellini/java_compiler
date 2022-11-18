@@ -11,8 +11,7 @@ import java_cup.runtime.*;
 parser code {:
 	
 	SymbolTable st = new SymbolTable();
-	
-	
+	int globalOffset = -4;
     
     
     
@@ -116,8 +115,16 @@ non terminal       program, ld, ls, d, s;
    		  		System.out.println("Error: variable redefined: " + I);
                 System.exit(1);
    		  	}
-   		  	System.out.println("Error: variable redefined: " + I);
-   		  	st.addSymbol(new VarSym(I, t, e.getValue()));
+   		  	st.addSymbol(new VarSym(I, t, e.getValue(),1, globalOffset));
+   		  	globalOffset -= 4;
+   		  	
+   		  	if(e.getFlag() == 1){
+   		  		System.out.println("mov " + e.getOffset() + ", " + "(%ebp)");
+   		  	}
+   		  	
+   		  	else {
+   		  		System.out.println("mov $" + e.getValue() + ", " + st.getSymbol(I).getOffset() + "(%ebp)");
+   		  	}
    		  	
    		  
    		 :}
@@ -173,8 +180,25 @@ non terminal       program, ld, ls, d, s;
                  							}
                  						:}
                  | expr:e1 PLUS expr:e2 {:
-                 							if(e1.getType() == 0 && e2.getType() == 0){
-                 								RESULT = new VarSym("aux", 0, e1.getValue() + e2.getValue());
+                 							if(e1.getType() == 1 && e2.getType() == 1){
+                 								RESULT = new VarSym("aux", 1, e1.getValue() + e2.getValue(), 1, globalOffset);
+                 								VarSym aux = new VarSym("aux", 1, e1.getValue() + e2.getValue(), 1, globalOffset);
+                 								globalOffset -= 4;
+                 								if(e1.getFlag() == 1){
+                 									System.out.println("mov " + st.getSymbol(e1.getName()).getOffset() + ", " + st.getSymbol(e1.getName()).getOffset() + "%eax");
+                 									if(e2.getFlag() == 1){
+                 										System.out.println("add " + st.getSymbol(e2.getName()).getOffset() + ", " + st.getSymbol(e2.getName()).getOffset() + "%eax");
+                 									}
+                 									else {
+                 										System.out.println("add " + e2.getValue() + ", " + st.getSymbol(e2.getName()).getOffset() + "%eax");
+                 					
+                 									}
+                 								}
+                 								
+                 								else{
+                 									System.out.println("add " + e2.getOffset() + ", " + st.getSymbol(e2.getName()).getOffset() + "(ebp ), %eax");
+                 								}
+                 								
                  							}
                  							else {
 	                 								System.out.println("Error: operacion aritmetica no valida con booleanos");
@@ -209,7 +233,7 @@ non terminal       program, ld, ls, d, s;
 	                 						}
                  						  :}
                  | LPAREN expr:e RPAREN {:RESULT = new VarSym("aux", e.getType(), e.getValue());  :}
-                 | NUMBER:N {: RESULT = new VarSym("num", new Integer(1), new Integer((int) N));System.out.println(RESULT.getName()); :}
+                 | NUMBER:N {: RESULT = new VarSym("num", new Integer(1), new Integer((int) N), 0, 0); :}
                  | ID:I {:
                  			if(!st.exist(I)){
                  				System.out.println("Error: undefined variable " + I);

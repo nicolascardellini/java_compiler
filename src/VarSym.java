@@ -4,12 +4,21 @@ public class VarSym {
 	private String name;
 	private int type;
 	private int value;
+	private int flag;
 	private int offset = 0;
 	
 	public VarSym(String name, int type, int value) {
 		this.name = name;
 		this.type = type;
 		this.value = value;
+	}
+	
+	public VarSym(String name, int type, int value, int flag, int offset) {
+		this.name = name;
+		this.type = type;
+		this.value = value;
+		this.flag = flag;
+		this.offset = offset;
 	}
 	
 	public String getName() {
@@ -35,5 +44,13 @@ public class VarSym {
 	}
 	public void setOffset(int offset) {
 		this.offset = offset;
+	}
+
+	public int getFlag() {
+		return flag;
+	}
+
+	public void setFlag(int flag) {
+		this.flag = flag;
 	}
 }

@@ -87,41 +87,41 @@ dec_int_id = [A-Za-z_][A-Za-z_0-9]*
 <YYINITIAL> {
    
     /* Return the token SEMI declared in the class sym that was found. */
-    ";"                { System.out.println(" ; "); return symbol(sym.SEMI); }
+    ";"                {  return symbol(sym.SEMI); }
    
     /* Print the token found that was declared in the class sym and then
        return it. */
-    "+"                { System.out.print(" + "); return symbol(sym.PLUS); }
-    "-"                { System.out.print(" - "); return symbol(sym.MINUS); }
-    "*"                { System.out.print(" * "); return symbol(sym.TIMES); }
-    "/"                { System.out.print(" / "); return symbol(sym.DIVIDE); }
-    "("                { System.out.print(" ( "); return symbol(sym.LPAREN); }
-    ")"                { System.out.print(" ) "); return symbol(sym.RPAREN); }
-    "&&"               { System.out.print(" && "); return symbol(sym.AND); }
-    "||"               { System.out.print(" || "); return symbol(sym.OR); }
+    "+"                {  return symbol(sym.PLUS); }
+    "-"                {  return symbol(sym.MINUS); }
+    "*"                {  return symbol(sym.TIMES); }
+    "/"                {  return symbol(sym.DIVIDE); }
+    "("                {  return symbol(sym.LPAREN); }
+    ")"                {  return symbol(sym.RPAREN); }
+    "&&"               {  return symbol(sym.AND); }
+    "||"               {  return symbol(sym.OR); }
     
-    "="               { System.out.print(" = "); return symbol(sym.ASSIG); }
+    "="               {  return symbol(sym.ASSIG); }
     
-    "true"               { System.out.print(" true "); return symbol(sym.TRUE); }
-    "false"               { System.out.print(" false "); return symbol(sym.FALSE); }
+    "true"               {  return symbol(sym.TRUE); }
+    "false"               {  return symbol(sym.FALSE); }
     
-    "int"               { System.out.print(" int "); return symbol(sym.TYPEINT); }
-    "bool"               { System.out.print(" bool "); return symbol(sym.TYPEBOOL); }
+    "int"               {  return symbol(sym.TYPEINT); }
+    "bool"               {  return symbol(sym.TYPEBOOL); }
     
-    "return"               { System.out.print("return "); return symbol(sym.RETURN); }
+    "return"               {  return symbol(sym.RETURN); }
     
     /* If an integer is found print it out, return the token NUMBER
        that represents an integer and the value of the integer that is
        held in the string yytext which will get turned into an integer
        before returning */
-    {dec_int_lit}      { System.out.print(yytext());
+    {dec_int_lit}      { 
                          return symbol(sym.NUMBER, new Integer(yytext())); }
    
     /* If an identifier is found print it out, return the token ID
        that represents an identifier and the default value one that is
        given to all identifiers. */
-    {dec_int_id}       { System.out.print(yytext());
-                         return symbol(sym.ID, new Integer(1));}
+    {dec_int_id}       { 
+                         return symbol(sym.ID, new String(yytext()));}
    
     /* Don't do anything if whitespace is found */
     {WhiteSpace}       { /* just skip what was found, do nothing */ }   
