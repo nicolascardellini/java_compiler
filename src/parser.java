@@ -233,7 +233,7 @@ class CUP$parser$actions {
           case 0: // program ::= ld ls 
             {
               Object RESULT =null;
-		 System.out.println(" FIN! "); 
+
               CUP$parser$result = parser.getSymbolFactory().newSymbol("program",2, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -256,7 +256,7 @@ class CUP$parser$actions {
           case 2: // program ::= ls 
             {
               Object RESULT =null;
-		 System.out.println(" FIN! "); 
+
               CUP$parser$result = parser.getSymbolFactory().newSymbol("program",2, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -320,7 +320,7 @@ class CUP$parser$actions {
    		  	globalOffset -= 4;
    		  	
    		  	if(e.getFlag() == 1){
-   		  		System.out.println("mov " + e.getOffset() + ", " + "(%ebp)");
+   		  		System.out.println("mov " + e.getOffset() + "(%ebp), %ed");
    		  	}
    		  	
    		  	else {
@@ -366,7 +366,14 @@ class CUP$parser$actions {
 		int eright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		VarSym e = (VarSym)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		
-         	System.out.println(e.getValue());
+         	{ if (e.getFlag() == 0) {
+                                            System.out.println("mov $" + e.getValue() +", %ed");
+                                            System.out.println("call print");
+                                       }else{
+                                            System.out.println("mov " + e.getOffset() +"(%rbp), %ed");
+                                            System.out.println("call print");
+                                       } 
+                                 }
          
               CUP$parser$result = parser.getSymbolFactory().newSymbol("s",6, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -459,12 +466,37 @@ class CUP$parser$actions {
 		int e2right = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		VarSym e2 = (VarSym)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		
+                 							//flag = 0 -> number, flag = 1 -> variable 
                  							if(e1.getType() == 1 && e2.getType() == 1){
                  								RESULT = new VarSym("aux", 1, e1.getValue() + e2.getValue(), 1, globalOffset);
+                 								VarSym aux = new VarSym("aux", 1, e1.getValue() + e2.getValue(), 1, globalOffset);
                  								globalOffset -= 4;
                  								if(e1.getFlag() == 1){
-                 									System.out.println("mov " + st.getSymbol(e1.getName()).getOffset() + ", " + st.getSymbol(e1.getName()).getOffset() + "(%ebp)");
+                 									System.out.println("mov " + st.getSymbol(e1.getName()).getOffset() + "(%ebp), %eax");
+                 									if(e2.getFlag() == 1){
+                 										System.out.println("add " + st.getSymbol(e2.getName()).getOffset() + ", " + st.getSymbol(e2.getName()).getOffset() + "%eax");
+                 									}
+                 									else {
+                 										
+                 										System.out.println("add " + e2.getValue() + ",%eax");
+                 										System.out.println("mov %eax," + globalOffset + "(%ebp)");
+                 										
+                 									}
                  								}
+                 								
+                 								else{
+                 									if(e2.getFlag() == 1){
+                 										System.out.println("add $" + e1.getValue() + ",%eax" );
+                 										System.out.println("mov %eax," + globalOffset + "(%ebp)");
+                 									}
+                 									else{
+                 										System.out.println("mov $" + e1.getValue() + ",%eax" );
+                 										System.out.println("add $" + e2.getValue() + ",%eax" );
+                 										System.out.println("mov %eax, %ed");
+                 										
+                 									}
+                 								}
+                 								
                  							}
                  							else {
 	                 								System.out.println("Error: operacion aritmetica no valida con booleanos");

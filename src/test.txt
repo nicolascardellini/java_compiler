@@ -1,5 +1,6 @@
-int x = 2; 
-int v = 5;
-v = 4;
-v = x + 4 ;
+
+int x = 1;
+int y = 5;
+return 6;
+
  

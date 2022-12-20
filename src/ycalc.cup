@@ -98,9 +98,7 @@ non terminal       program, ld, ls, d, s;
 /* ----------------------------Grammar Section-------------------- */
    
    program ::= ld ls 
-   			   {: System.out.println(" FIN! "); :}
                | ls
-               {: System.out.println(" FIN! "); :}
                ;   
    ld ::= d ld
           | d
@@ -119,7 +117,7 @@ non terminal       program, ld, ls, d, s;
    		  	globalOffset -= 4;
    		  	
    		  	if(e.getFlag() == 1){
-   		  		System.out.println("mov " + e.getOffset() + ", " + "(%ebp)");
+   		  		System.out.println("mov " + e.getOffset() + "(%ebp), %ed");
    		  	}
    		  	
    		  	else {
@@ -143,7 +141,14 @@ non terminal       program, ld, ls, d, s;
    		 :}
          | RETURN expr:e SEMI
          {:
-         	System.out.println(e.getValue());
+         	{ if (e.getFlag() == 0) {
+                                            System.out.println("mov $" + e.getValue() +", %ed");
+                                            System.out.println("call print");
+                                       }else{
+                                            System.out.println("mov " + e.getOffset() +"(%rbp), %ed");
+                                            System.out.println("call print");
+                                       } 
+                                 }
          :};
          
    type ::= TYPEBOOL {: RESULT = new Integer(0); :}
@@ -180,23 +185,35 @@ non terminal       program, ld, ls, d, s;
                  							}
                  						:}
                  | expr:e1 PLUS expr:e2 {:
+                 							//flag = 0 -> number, flag = 1 -> variable 
                  							if(e1.getType() == 1 && e2.getType() == 1){
                  								RESULT = new VarSym("aux", 1, e1.getValue() + e2.getValue(), 1, globalOffset);
                  								VarSym aux = new VarSym("aux", 1, e1.getValue() + e2.getValue(), 1, globalOffset);
                  								globalOffset -= 4;
                  								if(e1.getFlag() == 1){
-                 									System.out.println("mov " + st.getSymbol(e1.getName()).getOffset() + ", " + st.getSymbol(e1.getName()).getOffset() + "%eax");
+                 									System.out.println("mov " + st.getSymbol(e1.getName()).getOffset() + "(%ebp), %eax");
                  									if(e2.getFlag() == 1){
                  										System.out.println("add " + st.getSymbol(e2.getName()).getOffset() + ", " + st.getSymbol(e2.getName()).getOffset() + "%eax");
                  									}
                  									else {
-                 										System.out.println("add " + e2.getValue() + ", " + st.getSymbol(e2.getName()).getOffset() + "%eax");
-                 					
+                 										
+                 										System.out.println("add " + e2.getValue() + ",%eax");
+                 										System.out.println("mov %eax," + globalOffset + "(%ebp)");
+                 										
                  									}
                  								}
                  								
                  								else{
-                 									System.out.println("add " + e2.getOffset() + ", " + st.getSymbol(e2.getName()).getOffset() + "(ebp ), %eax");
+                 									if(e2.getFlag() == 1){
+                 										System.out.println("add $" + e1.getValue() + ",%eax" );
+                 										System.out.println("mov %eax," + globalOffset + "(%ebp)");
+                 									}
+                 									else{
+                 										System.out.println("mov $" + e1.getValue() + ",%eax" );
+                 										System.out.println("add $" + e2.getValue() + ",%eax" );
+                 										System.out.println("mov %eax, %ed");
+                 										
+                 									}
                  								}
                  								
                  							}
